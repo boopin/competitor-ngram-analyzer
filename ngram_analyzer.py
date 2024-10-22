@@ -68,7 +68,7 @@ st.title("Advanced N-gram Analyzer for Competitor URLs")
 
 # Input for Competitor URLs
 url1 = st.text_input("Enter Competitor URL 1", "")
-url2 = st.text_input("Enter Competitor URL 2 (optional)", "")  # Fixed string here
+url2 = st.text_input("Enter Competitor URL 2 (optional)", "")
 
 # Process for URL 1
 if url1:
