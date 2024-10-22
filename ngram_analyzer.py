@@ -68,4 +68,56 @@ st.title("Advanced N-gram Analyzer for Competitor URLs")
 
 # Input for Competitor URLs
 url1 = st.text_input("Enter Competitor URL 1", "")
-url2 = st.text_input("Enter Competitor URL 2 (optiona
+url2 = st.text_input("Enter Competitor URL 2 (optional)", "")  # Fixed string here
+
+# Process for URL 1
+if url1:
+    text_content1 = get_page_content(url1)
+    st.write("Extracted content from URL 1 (first 500 characters): ", text_content1[:500])
+
+    tokens1 = clean_text(text_content1)
+    
+    n = st.selectbox("Select N-gram (1 for Unigram, 2 for Bigram, 3 for Trigram)", [1, 2, 3])
+
+    # Generate N-grams for URL 1
+    if st.button("Generate N-grams for URL 1"):
+        ngram_counts1 = generate_ngrams(tokens1, n)
+        st.write(f"Top {n}-grams for URL 1:")
+        for ngram, count in ngram_counts1.most_common(10):
+            st.write(f"{ngram}: {count}")
+
+        # Add download button for the n-gram results
+        download_ngrams_as_csv(ngram_counts1, filename="ngrams_url1.csv")
+
+    # Generate Word Cloud for URL 1
+    if st.button("Generate Word Cloud for URL 1"):
+        st.write("Word Cloud for URL 1:")
+        generate_wordcloud(tokens1)
+
+# Process for URL 2 (if provided)
+if url2:
+    text_content2 = get_page_content(url2)
+    st.write("Extracted content from URL 2 (first 500 characters): ", text_content2[:500])
+
+    tokens2 = clean_text(text_content2)
+    
+    # Generate N-grams for URL 2
+    if st.button("Generate N-grams for URL 2"):
+        ngram_counts2 = generate_ngrams(tokens2, n)
+        st.write(f"Top {n}-grams for URL 2:")
+        for ngram, count in ngram_counts2.most_common(10):
+            st.write(f"{ngram}: {count}")
+
+        # Add download button for the n-gram results
+        download_ngrams_as_csv(ngram_counts2, filename="ngrams_url2.csv")
+
+    # Generate Word Cloud for URL 2
+    if st.button("Generate Word Cloud for URL 2"):
+        st.write("Word Cloud for URL 2:")
+        generate_wordcloud(tokens2)
+
+# Optional: Add comparison of N-grams between the two URLs
+if url1 and url2 and st.button("Compare N-grams for both URLs"):
+    st.write(f"Comparison of top {n}-grams between URL 1 and URL 2:")
+    common_ngrams = set(ngram_counts1.elements()) & set(ngram_counts2.elements())
+    st.write(f"Common N-grams between URL 1 and URL 2: {list(common_ngrams)}")
