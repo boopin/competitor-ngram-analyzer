@@ -45,12 +45,13 @@ def generate_wordcloud(tokens):
     # Clear previous plot to prevent overlap
     plt.clf()
     
-    plt.figure(figsize=(10, 5))
-    plt.imshow(wordcloud, interpolation='bilinear')
-    plt.axis('off')
-    
+    # Create a new figure to avoid drawing issues
+    fig, ax = plt.subplots()
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis('off')
+
     # Display the plot in Streamlit
-    st.pyplot(plt)
+    st.pyplot(fig)
 
 # Function to convert n-grams to CSV format and download
 def download_ngrams_as_csv(ngrams, filename="ngrams.csv"):
