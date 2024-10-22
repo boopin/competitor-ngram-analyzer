@@ -8,12 +8,16 @@ from nltk.corpus import stopwords
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 import pandas as pd
+import numpy as np
 
 nltk.download('punkt')
 nltk.download('stopwords')
 
 # Stopwords list
 stop_words = set(stopwords.words('english'))
+
+# Display NumPy version to ensure it's properly installed
+st.write(f"NumPy version: {np.__version__}")
 
 # Function to extract page content
 def get_page_content(url):
@@ -34,12 +38,18 @@ def generate_ngrams(tokens, n):
     n_grams = ngrams(tokens, n)
     return Counter(n_grams)
 
-# Function to generate word cloud from tokens
+# Function to generate word cloud from tokens and clear existing plots
 def generate_wordcloud(tokens):
     wordcloud = WordCloud(width=800, height=400, background_color='white').generate(' '.join(tokens))
+    
+    # Clear previous plot to prevent overlap
+    plt.clf()
+    
     plt.figure(figsize=(10, 5))
     plt.imshow(wordcloud, interpolation='bilinear')
     plt.axis('off')
+    
+    # Display the plot in Streamlit
     st.pyplot(plt)
 
 # Function to convert n-grams to CSV format and download
